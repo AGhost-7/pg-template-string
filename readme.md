@@ -4,17 +4,26 @@ succinctly.
 The template string tag returns a promise of the result set. Example:
 ```javascript
 
+const pg = require('pg')
+const pool = new pg.Pool({
+	database: 'template1',
+	user: 'postgres',
+	host: 'postgres'
+})
+const pgTemplateString = require('pg-template-string')
+const sql = pgTemplateString(pool)
+
 var people = [
 	{ name: 'doge' },
 	{ name: 'Le Lenny' },
 	{ name: 'Pepe' }
 ]
 
-var personsInDb = `create table person (
+var personsInDb = sql`create table person (
 	name text
 )`.then(() => {
-	return Promise.map(people, (person) => `insert into person values(${person.name})`)
+	return Promise.map(people, (person) => sql`insert into person values(${person.name})`)
 })
-.then(() => `select * from person`)
+.then(() => sql`select * from person`)
 ```
 
