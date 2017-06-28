@@ -23,16 +23,19 @@ describe('params', () => {
 
 	it('query without params', () => {
 		return sql`select * from information_schema.columns`
+			.then(() => {
+				console.log('boo')
+			})
 	})
 
 	it('query with more that one param', () => {
 		const char1 = 'b%'
 		const char2 = 'c%'
-		return sql`
+		return (sql`
 			select count(*)
 			from information_schema.columns
 			where column_name like ${char1} or column_name like ${char2}
-		`.then((res) => {
+		`).then((res) => {
 			console.log('res:', res)
 		})
 	})
