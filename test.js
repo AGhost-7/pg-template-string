@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 const pg = require('pg')
 const pool = new pg.Pool({
 	database: 'template1',
